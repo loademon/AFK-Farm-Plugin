@@ -1,0 +1,14 @@
+name: AFKFarm
+version: '${version}'
+main: com.loademon.afkfarm.AfkFarmPlugin
+api-version: '26.3'
+description: Keeps farms running while their owner is offline by placing an invisible fake player.
+authors: [loademon]
+
+permissions:
+  afkfarm.use:
+    description: Save, remove and list your own AFK farms
+    default: true
+  afkfarm.admin:
+    description: Manage every farm and ignore the per-player limit
+    default: op

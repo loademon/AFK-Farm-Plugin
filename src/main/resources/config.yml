@@ -1,0 +1,3 @@
+# Bir oyuncunun kaydedebileceği en fazla farm sayısı.
+# Her farm, sunucuya bir oyuncu kadar yük getirir. afkfarm.admin yetkisi olanlar bu sınıra takılmaz.
+max-farms-per-player: 2
