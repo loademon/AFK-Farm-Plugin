@@ -43,32 +43,26 @@ Her farm sunucuya bir oyuncu kadar yük getirir, limiti buna göre ayarla. Farml
 
 ## Docker sunucusuna kurulum
 
-1. GitHub'daki **Releases** sayfasından `AFKFarm-1.0.0.jar` dosyasının linkini kopyala.
-2. Container'ın içinde sunucunun `plugins` klasörünü bul:
+1. Container'ın içinde sunucunun `plugins` klasörünü bul (itzg imajında `/data/plugins`):
 
    ```bash
    find / -type d -name plugins -not -path "/proc/*" 2>/dev/null
    ```
 
-3. Jar'ı o klasöre indir (`/sunucu/plugins` yerine bulduğun yolu yaz):
+2. Eski sürümü sil ve son sürümü indir. Bu komut kurulumda da güncellemede de aynıdır:
 
    ```bash
-   curl -L -o /sunucu/plugins/AFKFarm.jar https://github.com/KULLANICI/AFK-Farm-Plugin/releases/download/v1.0.0/AFKFarm-1.0.0.jar
+   rm -f /data/plugins/AFKFarm*.jar
+   curl -L -o /data/plugins/AFKFarm.jar https://github.com/loademon/AFK-Farm-Plugin/releases/latest/download/AFKFarm.jar
    ```
 
-   Repo gizliyse (private) bu link çalışmaz. O zaman jar'ı bilgisayarına indirip Docker'ın çalıştığı makineden container'a kopyala:
-
-   ```bash
-   docker cp AFKFarm-1.0.0.jar <container-adı>:/sunucu/plugins/AFKFarm.jar
-   ```
-
-4. Sunucuyu yeniden başlat (`/reload` kullanma):
+3. Sunucuyu yeniden başlat (`/reload` kullanma):
 
    ```bash
    docker restart <container-adı>
    ```
 
-5. Oyunda `/afkfarm` yazarak plugin'in yüklendiğini kontrol et.
+4. Oyunda `/afkfarm` yazarak plugin'in yüklendiğini kontrol et.
 
 ## Derleme
 
