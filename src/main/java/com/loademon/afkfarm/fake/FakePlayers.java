@@ -21,6 +21,7 @@ import net.minecraft.world.phys.Vec3;
 import org.bukkit.Location;
 import org.bukkit.craftbukkit.CraftWorld;
 import org.bukkit.craftbukkit.entity.CraftPlayer;
+import org.bukkit.plugin.Plugin;
 
 /**
  * Spawns one server-side player per farm. The player is added to the world but never to the player
@@ -41,12 +42,14 @@ public final class FakePlayers {
         }
     }
 
+    private final Plugin plugin;
     private final Logger logger;
     private final Map<String, ServerPlayer> byFarm = new HashMap<>();
     private final Map<UUID, String> farmByPlayerId = new HashMap<>();
 
-    public FakePlayers(final Logger logger) {
-        this.logger = logger;
+    public FakePlayers(final Plugin plugin) {
+        this.plugin = plugin;
+        this.logger = plugin.getLogger();
     }
 
     public boolean spawn(final Farm farm) {
@@ -89,6 +92,7 @@ public final class FakePlayers {
 
         this.byFarm.put(key, player);
         this.farmByPlayerId.put(player.getUUID(), key);
+        this.updatePausing();
         return true;
     }
 
@@ -99,6 +103,15 @@ public final class FakePlayers {
         }
         this.farmByPlayerId.remove(player.getUUID());
         player.level().removePlayerImmediately(player, Entity.RemovalReason.DISCARDED);
+        this.updatePausing();
+    }
+
+    /**
+     * pause-when-empty-seconds only counts players in the player list, so with every real player gone
+     * the server would stop ticking and take the farms with it.
+     */
+    private void updatePausing() {
+        this.plugin.getServer().allowPausing(this.plugin, this.byFarm.isEmpty());
     }
 
     public void despawnAll() {
@@ -108,7 +121,8 @@ public final class FakePlayers {
     }
 
     public boolean isSpawned(final String farmName) {
-        return this.byFarm.containsKey(key(farmName));
+        final ServerPlayer player = this.byFarm.get(key(farmName));
+        return player != null && !player.isRemoved();
     }
 
     public boolean isFake(final UUID playerId) {

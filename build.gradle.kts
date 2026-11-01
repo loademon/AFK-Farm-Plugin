@@ -4,7 +4,7 @@ plugins {
 }
 
 group = "com.loademon"
-version = "1.0.0"
+version = "1.0.1"
 
 repositories {
     mavenCentral()
@@ -20,6 +20,7 @@ java {
 }
 
 tasks.processResources {
+    inputs.property("version", project.version)
     filesMatching("paper-plugin.yml") {
         expand("version" to project.version)
     }

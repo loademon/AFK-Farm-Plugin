@@ -21,7 +21,7 @@ public final class AfkFarmPlugin extends JavaPlugin {
 
         this.farms = new FarmStore(new File(this.getDataFolder(), "farms.yml"), this.getLogger());
         this.farms.load();
-        this.fakePlayers = new FakePlayers(this.getLogger());
+        this.fakePlayers = new FakePlayers(this);
 
         final AfkFarmCommand command = new AfkFarmCommand(
             this.farms, this.fakePlayers, () -> this.getConfig().getInt("max-farms-per-player", 2)
